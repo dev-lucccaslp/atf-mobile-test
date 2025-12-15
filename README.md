@@ -1,50 +1,114 @@
-# Welcome to your Expo app 👋
+# ATF Mobile Teste – URL Shortener
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicação mobile desenvolvida em **React Native**, cujo objetivo é encurtar URLs utilizando um serviço backend já existente e exibir um histórico dos links recentemente encurtados.
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 Escopo da Aplicação
 
-   ```bash
-   npm install
-   ```
+A aplicação possui **uma única tela**, contendo:
 
-2. Start the app
+- Campo de texto para inserção da URL
+- Botão para envio da URL ao serviço
+- Lista com o histórico de URLs encurtadas recentemente
 
-   ```bash
-   npx expo start
-   ```
+Os dados são mantidos **exclusivamente em memória**, conforme solicitado no desafio.
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🧠 Arquitetura
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Foi adotada uma **arquitetura baseada em feature**, visando clareza, coesão e facilidade de manutenção:
 
-## Get a fresh project
+src/
+└─ features/
+└─ shortener/
+├─ components/ # Componentes de UI
+├─ hooks/ # Lógica e gerenciamento de estado
+├─ services/ # Comunicação com a API
+├─ styles.ts # Styled-components (React Native)
+├─ types.ts # Tipagens
+└─ ShortenerScreen.tsx
 
-When you're ready, run:
+### Principais decisões arquiteturais
 
-```bash
-npm run reset-project
+- Separação clara de responsabilidades
+- Lógica de negócio isolada em hooks
+- Comunicação com API desacoplada da UI
+- Estado mantido apenas em memória
+- Styled-components para estilização mobile nativa
+
+---
+
+## 🔌 Integração com a API
+
+Endpoint utilizado:
+
+POST https://url-shortener-server.onrender.com/api/alias
+
+Corpo da requisição:
+
+```json
+{
+  "url": "https://example.com"
+}
+
+Resposta de sucesso:
+{
+  "alias": "abc123",
+  "_links": {
+    "self": "https://example.com",
+    "short": "https://short.url/abc123"
+  }
+}
+
+🧩 Gerenciamento de Estado
+
+Gerenciamento local utilizando React Hooks
+Nenhuma persistência em banco de dados ou armazenamento local
+O histórico é reiniciado ao fechar o aplicativo
+
+🎨 Estilização
+
+Utilizado styled-components (React Native)
+Abordagem mobile-first
+
+Sem dependência de CSS ou soluções voltadas para web
+
+▶️ Como Executar o Projeto
+Pré-requisitos
+Node.js (LTS)
+Expo CLI
+
+Aplicativo Expo Go instalado no dispositivo móvel
+
+Passos para execução
+npm install
+npx expo start --tunnel
+
+No dispositivo móvel:
+Abra o aplicativo Expo Go
+Escaneie o QR Code exibido no terminal ou navegador
+
+ℹ️ Para dispositivos iOS físicos, recomenda-se o uso do modo Tunnel para evitar restrições de rede local.
+
+🧪 Testes
+
+O projeto foi estruturado visando fácil testabilidade, permitindo:
+Testes unitários da lógica de negócio (hooks)
+Testes da camada de serviços (API)
+Testes de interface (UI)
+
+📌 Observações Finais
+
+A interface visual não foi priorizada, conforme indicado no desafio
+O foco do projeto está na organização do código, arquitetura e boas práticas de desenvolvimento mobile
+
+🚀 Tecnologias Utilizadas
+
+React Native
+Expo
+TypeScript
+Axios
+Styled-components
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
